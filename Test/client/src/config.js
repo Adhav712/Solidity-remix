@@ -1,30 +1,77 @@
-export const SimpleStorage_ADDRESS = '0x8c950C696E2F9cF7c20B70378C87f0D54DCAF4eE'
+export const Hashnotes_ADDRESS = '0x99c566A942eBa1f5dB8571c5B3b0c06F2474678C'
 
-export const SimpleStorage_ABI = [
+export const Hashnotes_ABI =[
     {
-      "constant": false,
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "num",
-          "type": "uint256"
+          "internalType": "string",
+          "name": "_message",
+          "type": "string"
         }
       ],
-      "name": "store",
-      "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "message",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
       "constant": true,
       "inputs": [],
-      "name": "retrieve",
+      "name": "owner",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "address",
           "name": "",
-          "type": "uint256"
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "x",
+          "type": "string"
+        }
+      ],
+      "name": "set",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "get",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
         }
       ],
       "payable": false,

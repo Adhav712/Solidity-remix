@@ -2,24 +2,25 @@ import React from 'react'
 import {useState} from 'react'
 import Web3 from 'web3'
 import './App.css'
-import { SimpleStorage_ABI, SimpleStorage_ADDRESS } from './config'
-import SimpleStorage from './contracts/SimpleStorage.json'
+import { Hashnotes_ABI, Hashnotes_ADDRESS } from './config'
+import Hashnotes from './contracts/Hashnotes.json'
 
 function App() {
 
-  const[number, setnumbervalue, accounts] = useState()
+  const[message, setmessagevalue, data] = useState('')
+  // const[accounts] = useState('')
 
   async function requestaccouts(){
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
     const accounts = await web3.eth.getAccounts(); 
   }
 
   async function fetchData() {
     if (typeof window.ethereum !== 'undefined') {
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
-      const SimpleStorage = new web3.eth.Contract(SimpleStorage_ABI, SimpleStorage_ADDRESS)
+      const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+      const Hashnotes = new web3.eth.Contract(Hashnotes_ABI, Hashnotes_ADDRESS)
       try {
-        const data = await SimpleStorage.methods.retrieve().call()
+        const data = await Hashnotes.methods.get().call()
         console.log('data: ', data)
       } catch (err) {
         console.log("Error: ", err)
@@ -29,9 +30,13 @@ function App() {
   async function setData() {
     if (typeof window.ethereum !== 'undefined') {
       await requestaccouts()
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
-      const SimpleStorage = new web3.eth.Contract(SimpleStorage_ABI, SimpleStorage_ADDRESS)
-      const SetData = await SimpleStorage.methods.store(number).send({ {from: '0xDd0A0Ec6A21EC7D1c2Fbc92D19F8f1a57d81615E'} })
+   
+      // var Accounts = require('web3-eth-accounts');
+      // var accounts = new Accounts('ws://localhost:8545');
+      const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+        const accounts = await web3.eth.getAccounts(); 
+      const Hashnotes = new web3.eth.Contract(Hashnotes_ABI, Hashnotes_ADDRESS)
+      const SetData = await Hashnotes.methods.set(message).send({from: accounts[0]})
       fetchData()
     }
   }
@@ -39,9 +44,10 @@ function App() {
 return (
    <div>
       <p className="text-center">Welcome To Web3</p>
-      <input onChange = {e => setnumbervalue(e.target.value)} placeholder="Add task..."/>
+      <input onChange = {e => setmessagevalue(e.target.value)} placeholder="Add task..."/>
       <input type="submit"  onClick = {setData}/>
       <button type = 'button' onClick = {fetchData}> GetInfo</button>
+      <p>Hey this what you typed {data}</p>
    </div>
   );
 }
